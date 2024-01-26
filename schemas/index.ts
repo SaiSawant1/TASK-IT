@@ -9,3 +9,7 @@ export const RegisterSchema = z.object({
   email: z.string().email({ message: "invalid email" }),
   password: z.string().min(6, { message: "aleast 6 characters" }),
 });
+
+export const CreateOrgSchema = z.object({
+  name: z.string().min(1, { message: "invalid name" }),
+});

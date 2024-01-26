@@ -43,7 +43,25 @@ model User {
   emailVerified DateTime?
   image         String?
   accounts      Account[]
+  organizationMembership OrganizationMembership[]
 }
+
+model  OrganizationMembership{
+    id            String    @id @default(cuid())
+    user          User      @relation(fields:[userId],references:[id])
+    userId        String
+    organization  Organization @relation(fields:[organizationId],references:[id])
+    organizationId String
+    
+    @@unique([userId,organizationId])
+  }
+
+model Organization{
+    id            String    @id @default(cuid())
+    name          String
+    members OrganizationMembership[]
+  }
+
 model VerificationToken{
   id            String    @id @default(cuid())
   email         String

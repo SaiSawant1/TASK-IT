@@ -28,7 +28,7 @@ export default function MarketingPage() {
         </div>
         <h1 className="text-3xl md:text-6xl text-center text-neutral-800 mb-6">
           {" "}
-          Task-It helps team prosper.
+          TASK-IT helps team prosper.
         </h1>
         <div className="text-3xl md:text-6xl bg-gradient-to-r from-fuchsia-600 to-pink-600 text-white px-4 p-2 rounded-md pb-4 w-fit">
           Work ahead.
@@ -42,10 +42,10 @@ export default function MarketingPage() {
       >
         Collaborate, manage projects, and reach productivity peaks. From high
         rises to home office, the way your team works is unique - accompish it
-        all by Task-IT
+        all by TASK-IT
       </div>
       <Button className="mt-6" size={"lg"} asChild>
-        <Link href={"/sign-up"}>Lets Task-It</Link>
+        <Link href={"/sign-up"}>Lets TASK-IT</Link>
       </Button>
     </div>
   );
