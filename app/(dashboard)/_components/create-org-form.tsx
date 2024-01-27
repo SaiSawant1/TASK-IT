@@ -22,6 +22,9 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { createOrganization } from "@/actions/organization";
+import { FormSuccess } from "@/components/form-success";
+import { FormError } from "@/components/form-error";
+import { useState } from "react";
 
 interface CreateOrgFormProps {
   isModalOpen: boolean;
@@ -38,10 +41,17 @@ export const CreateOrgForm = ({
       name: "",
     },
   });
+  const [error, setError] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
   const onSubmit = (value: z.infer<typeof CreateOrgSchema>) => {
-    createOrganization(value, data?.user.email!).then((data) => {
-      console.log(data);
-    });
+    createOrganization(value, data?.user.email!)
+      .then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      })
+      .catch(() => {
+        setError("something went wrong");
+      });
   };
   return (
     <Dialog onOpenChange={setModalClose} open={isModalOpen}>
@@ -76,6 +86,8 @@ export const CreateOrgForm = ({
               <Button type="submit" className="w-full">
                 Create new Organization
               </Button>
+              <FormSuccess message={success} />
+              <FormError message={error} />
             </div>
           </form>
         </Form>
