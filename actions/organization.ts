@@ -1,6 +1,7 @@
 "use server";
 
-import { getUserByEmail } from "@/data/user";
+import { OrganizationList } from "@/app/(dashboard)/_components/organization-list";
+import { getUserByEmail, getUserByID } from "@/data/user";
 import { db } from "@/lib/db";
 import { CreateOrgSchema } from "@/schemas";
 import { connect } from "http2";
@@ -31,4 +32,31 @@ export const createOrganization = async (
     },
   });
   return { success: "organization created" };
+};
+
+export const getAllOrganizationOfCurrentUser = async (userId: string) => {
+  if (!userId) {
+    return { error: "User id required" };
+  }
+
+  const existingUser = await getUserByID(userId);
+
+  if (!existingUser) {
+    return { error: "no user found" };
+  }
+
+  const userWithMembership = await db.user.findUnique({
+    where: { id: userId },
+    include: { organizationMembership: { include: { organization: true } } },
+  });
+
+  if (!userWithMembership?.organizationMembership) {
+    return { response: [] };
+  }
+
+  const organizationList = userWithMembership.organizationMembership.map(
+    (value) => value.organization,
+  );
+
+  return { response: organizationList };
 };
