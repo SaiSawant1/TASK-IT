@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BuildingOffice2 } from "@styled-icons/heroicons-outline/BuildingOffice2";
 import { Separator } from "@/components/ui/separator";
 import useCurrentOrg from "@/store";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Key } from "lucide-react";
 interface OrganizationListProps {
   OrganizationList: { name: string; id: string }[];
 }
@@ -32,9 +32,8 @@ export const OrganizationList = ({
   const handleClick = (values: { id: string; name: string }) => {
     setOrgId(values.id);
     setOrgName(values.name);
-    const updateList = OrganizationList.filter((item) => item.id !== values.id);
-    if (updateList.length > 0) {
-      setOrgList(updateList);
+    if (OrganizationList.length > 0) {
+      setOrgList(OrganizationList);
     }
     router.push(`/organization/${values.id}`);
   };
@@ -44,24 +43,20 @@ export const OrganizationList = ({
         <div>
           <ScrollArea className="w-full h-36">
             {OrganizationList.map((data) => (
-              <>
-                <div
-                  className="cursor-pointer"
-                  onClick={() => handleClick(data)}
-                >
-                  <div
-                    key={data.id}
-                    className="flex hover:bg-slate-200 transition-all rounded-md p-4 items-center justify-between"
-                  >
-                    <div className="flex gap-x-4 items-center">
-                      <BuildingOffice2 className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
-                      <p className="text-xl font-semibold">{data.name}</p>
-                    </div>
-                    <ArrowRight className="text-gray-500" />
+              <div
+                key={data.id}
+                className="cursor-pointer"
+                onClick={() => handleClick(data)}
+              >
+                <div className="flex hover:bg-slate-200 transition-all rounded-md p-4 items-center justify-between">
+                  <div className="flex gap-x-4 items-center">
+                    <BuildingOffice2 className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
+                    <p className="text-xl font-semibold">{data.name}</p>
                   </div>
+                  <ArrowRight className="text-gray-500" />
                 </div>
                 <Separator />
-              </>
+              </div>
             ))}
           </ScrollArea>
         </div>

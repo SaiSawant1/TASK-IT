@@ -17,7 +17,7 @@ export const OrganizationSwitcher = () => {
   );
   useEffect(() => {
     if (currentOrganizationName === "") {
-      router.push("/organization");
+      router.push("/organization-select");
       return;
     }
   }, [currentOrganizationName, router]);

@@ -24,4 +24,4 @@ export const apiAuthPrefix = "/api/auth";
  * user will be redirected here when logged in
  * @type {string}
  */
-export const DEFAULT_LOGIN_REDIRECT = "/organization";
+export const DEFAULT_LOGIN_REDIRECT = "/organization-select";
