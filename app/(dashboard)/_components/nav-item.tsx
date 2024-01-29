@@ -1,12 +1,10 @@
 "use client";
-
 import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import {
   Building2,
@@ -73,7 +71,7 @@ export const NavItem = ({
             <div className="p-2">
               <Building2 className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
             </div>
-            <span className="font-medium text-sm">{organizationName}</span>
+            <span className="font-normal text-sm">{organizationName}</span>
           </div>
         </AccordionTrigger>
         <AccordionContent className="pt-1 text-neutral-700">
@@ -94,7 +92,6 @@ export const NavItem = ({
           ))}
         </AccordionContent>
       </AccordionItem>
-      <Separator />
     </>
   );
 };
