@@ -69,3 +69,12 @@ model VerificationToken{
   expires       DateTime
   @@unique([email,token])
   }
+ 
+model Board{
+  id            String    @id @default(cuid())
+  title         String
+
+  }
+
+
+
