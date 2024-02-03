@@ -25,6 +25,8 @@ import { createOrganization } from "@/actions/organization";
 import { FormSuccess } from "@/components/form-success";
 import { FormError } from "@/components/form-error";
 import { useState } from "react";
+import { useCreatOrg } from "@/hooks/use-action-create-org";
+import { createOrgAction } from "@/actions/create-organization";
 
 interface CreateOrgFormProps {
   isModalOpen: boolean;
@@ -34,24 +36,17 @@ export const CreateOrgForm = ({
   isModalOpen,
   setModalClose,
 }: CreateOrgFormProps) => {
-  const { data } = useSession();
   const form = useForm<z.infer<typeof CreateOrgSchema>>({
     resolver: zodResolver(CreateOrgSchema),
     defaultValues: {
       name: "",
     },
   });
-  const [error, setError] = useState<string | undefined>("");
+  const { error, execute, isLoading } = useCreatOrg(createOrgAction);
   const [success, setSuccess] = useState<string | undefined>("");
   const onSubmit = (value: z.infer<typeof CreateOrgSchema>) => {
-    createOrganization(value, data?.user.email!)
-      .then((data) => {
-        setError(data.error);
-        setSuccess(data.success);
-      })
-      .catch(() => {
-        setError("something went wrong");
-      });
+    const { name } = value;
+    execute({ title: name }).then((value) => setSuccess("orgCreated"));
   };
   return (
     <Dialog onOpenChange={setModalClose} open={isModalOpen}>
@@ -74,6 +69,7 @@ export const CreateOrgForm = ({
                     </FormLabel>
                     <FormControl>
                       <Input
+                        disabled={isLoading}
                         className="bg-zinc-300/50 focus-visible:ring-0 text-black focus-visible:ring-offset-0"
                         placeholder="Enter Organization Name"
                         {...field}
@@ -83,7 +79,7 @@ export const CreateOrgForm = ({
                   </FormItem>
                 )}
               />
-              <Button type="submit" className="w-full">
+              <Button disabled={isLoading} type="submit" className="w-full">
                 Create new Organization
               </Button>
               <FormSuccess message={success} />
