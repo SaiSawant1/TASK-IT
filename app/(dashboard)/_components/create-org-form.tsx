@@ -42,11 +42,15 @@ export const CreateOrgForm = ({
       name: "",
     },
   });
-  const { error, execute, isLoading } = useCreatOrg(createOrgAction);
+  const { error, execute, isLoading } = useCreatOrg(createOrgAction, {
+    onSuccess: (_) => {
+      setSuccess("organization created");
+    },
+  });
   const [success, setSuccess] = useState<string | undefined>("");
   const onSubmit = (value: z.infer<typeof CreateOrgSchema>) => {
     const { name } = value;
-    execute({ title: name }).then((value) => setSuccess("orgCreated"));
+    execute({ title: name });
   };
   return (
     <Dialog onOpenChange={setModalClose} open={isModalOpen}>

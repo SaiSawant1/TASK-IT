@@ -1,10 +1,10 @@
+"use server";
 import { auth } from "@/auth";
 import { ReturnType } from "./types";
 import { getUserByID } from "@/data/user";
 import { db } from "@/lib/db";
-import { createSafeGetAction } from "@/lib/create-safe-get-action";
 
-const handler = async (): Promise<ReturnType> => {
+export const getAllOrgsOfCurrentUser = async (): Promise<ReturnType> => {
   const session = await auth();
   if (!session?.user.id) {
     return { error: "Unauthorized" };
@@ -23,7 +23,7 @@ const handler = async (): Promise<ReturnType> => {
       organizationMembership: { include: { organization: true } },
     },
   });
-  if (userWithMembership?.organizationMembership) {
+  if (!userWithMembership?.organizationMembership) {
     return { error: "No membership for current user" };
   }
 
@@ -33,5 +33,3 @@ const handler = async (): Promise<ReturnType> => {
 
   return { data: organizationList };
 };
-
-export const fetchOrganizationAction = createSafeGetAction(handler);
