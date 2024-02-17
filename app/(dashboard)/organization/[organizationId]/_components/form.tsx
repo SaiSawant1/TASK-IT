@@ -1,21 +1,29 @@
 "use client";
+import { createBoard } from "@/actions/create-board";
+import { FormInput } from "@/components/form/form-input";
+import { FormSubmit } from "@/components/form/form-submit";
 import { Button } from "@/components/ui/button";
-import { useFormState } from "react-dom";
+import { useAction } from "@/hooks/use-action";
 
 export const Form = () => {
-  const initialState = { message: null, error: {} };
+  const { execute, fieldErrors } = useAction(createBoard, {
+    onSuccess: (data) => {
+      console.log(data);
+    },
+  });
+  const handleSubmit = (data: FormData) => {
+    const title = data.get("title") as string;
+    if (title) {
+      execute({ title });
+    }
+  };
+
   return (
-    <form>
+    <form action={handleSubmit}>
       <div className="flex flex-col space-y-2">
-        <input
-          id="title"
-          name="title"
-          required
-          placeholder="Enter a board title"
-          className="border-black border p-1"
-        />
+        <FormInput id="title" errors={fieldErrors} label="Board Title" />
       </div>
-      <Button type="submit">submit</Button>
+      <FormSubmit>Submit</FormSubmit>
     </form>
   );
 };

@@ -34,7 +34,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [data, isLoading]);
+  }, [data]);
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
@@ -50,10 +50,11 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
       [id]: !expanded[id],
     }));
   };
-  if (!data) {
+
+  if (isLoading || !data) {
     return (
       <>
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex  items-center justify-between mb-2">
           <Skeleton className="h-10 w-[50%]" />
           <Skeleton className="h-10 w-10" />
         </div>
@@ -65,6 +66,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
       </>
     );
   }
+
   return (
     <>
       <div className="font-medium text-xs flex items-center mb-1">
