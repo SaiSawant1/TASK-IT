@@ -34,7 +34,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     } finally {
       setIsLoading(false);
     }
-  }, [data]);
+  }, []);
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
