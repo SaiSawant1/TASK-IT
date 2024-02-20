@@ -13,6 +13,7 @@ import { FormSubmit } from "./form-submit";
 import { Button } from "../ui/button";
 import { X } from "lucide-react";
 import { toast } from "sonner";
+import { FormPicker } from "./form-picker";
 
 interface FormPopOverProps {
   children: React.ReactNode;
@@ -66,6 +67,7 @@ export const FormPopOver = ({
         </PopoverClose>
         <form action={onSubmit} className="space-y-4">
           <div className="space-y-4">
+            <FormPicker id="image" />
             <FormInput
               id="title"
               errors={fieldErrors}
