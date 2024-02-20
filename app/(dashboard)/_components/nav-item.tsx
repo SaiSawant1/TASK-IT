@@ -70,7 +70,7 @@ export const NavItem = ({
         >
           <div className="flex items-center gap-x-2">
             <div className="p-2">
-              <Building2 className="bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
+              <Building2 className="text-white bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
             </div>
             <span className="font-normal text-sm">{organizationName}</span>
           </div>
