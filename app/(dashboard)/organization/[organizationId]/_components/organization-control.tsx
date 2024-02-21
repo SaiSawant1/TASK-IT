@@ -1,29 +1,27 @@
 "use client";
 
+import { useOrganizalitonList } from "@/hooks/use-organization-list";
 import useCurrentOrg from "@/store";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-interface OrganizationControlProps {
-  list: { name: string; id: string }[];
-}
-
-export const OrganizationControl = ({ list }: OrganizationControlProps) => {
+export const OrganizationControl = () => {
   const params = useParams();
-
   const router = useRouter();
   const setOrgId = useCurrentOrg((state) => state.setOrgId);
   const setOrgName = useCurrentOrg((state) => state.setOrgName);
   const setOrgList = useCurrentOrg((state) => state.setOrgList);
+  const { data } = useOrganizalitonList();
+
   useEffect(() => {
-    list?.forEach((item) => {
+    data?.forEach((item) => {
       if (item.id === params.organizationId) {
         setOrgId(item.id);
         setOrgName(item.name);
-        setOrgList(list);
+        setOrgList(data);
         router.push(`/organization/${item.id}`);
       }
     });
-  }, [params.organizationId, list, router, setOrgList, setOrgName, setOrgId]);
+  }, [data, router, params.organizationId, setOrgId, setOrgList, setOrgName]);
   return null;
 };

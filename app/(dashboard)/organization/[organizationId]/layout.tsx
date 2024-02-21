@@ -1,4 +1,3 @@
-import { getAllOrganizationOfCurrentUser } from "@/actions/organization";
 import { OrganizationControl } from "./_components/organization-control";
 import { auth } from "@/auth";
 
@@ -15,11 +14,9 @@ export default async function OrganizationIdLayout({
     return null;
   }
 
-  const { response } = await getAllOrganizationOfCurrentUser(session?.user.id);
-
   return (
     <>
-      <OrganizationControl list={response || []} />
+      <OrganizationControl />
       {children}
     </>
   );
