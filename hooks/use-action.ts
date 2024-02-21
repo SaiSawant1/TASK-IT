@@ -7,6 +7,7 @@ import { ActionState, FieldErrors } from "@/lib/create-safe-action";
  **/
 type Action<TInput, TOutput> = (
   data: TInput,
+  orgId: string,
 ) => Promise<ActionState<TInput, TOutput>>;
 
 interface UseActionOption<TOutput> {
@@ -27,11 +28,11 @@ export const useAction = <TInput, TOutput>(
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const execute = useCallback(
-    async (input: TInput) => {
+    async (input: TInput, orgId: string) => {
       setIsLoading(true);
 
       try {
-        const result = await action(input);
+        const result = await action(input, orgId);
 
         if (!result) {
           return;

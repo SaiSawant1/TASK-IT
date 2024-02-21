@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { BuildingOffice2 } from "@styled-icons/heroicons-outline/BuildingOffice2";
 import { Separator } from "@/components/ui/separator";
 import useCurrentOrg from "@/store";
-import { ArrowRight, Key } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useOrganizalitonList } from "@/hooks/use-organization-list";
 
 export const OrganizationList = () => {

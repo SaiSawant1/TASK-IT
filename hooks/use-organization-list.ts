@@ -14,7 +14,6 @@ export const useOrganizalitonList = () => {
     setIsLoading(true);
     try {
       getAllOrgsOfCurrentUser().then((res) => {
-        console.log(res);
         if (res.data) {
           setData(res.data);
         }

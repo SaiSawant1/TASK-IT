@@ -12,9 +12,15 @@ export type ActionState<TInput, TOutput> = {
 
 export const createSafeAction = <TInput, TOutput>(
   schema: z.Schema<TInput>,
-  handler: (data: TInput) => Promise<ActionState<TInput, TOutput>>,
+  handler: (
+    data: TInput,
+    orgId: string,
+  ) => Promise<ActionState<TInput, TOutput>>,
 ) => {
-  return async (data: TInput): Promise<ActionState<TInput, TOutput>> => {
+  return async (
+    data: TInput,
+    orgId: string,
+  ): Promise<ActionState<TInput, TOutput>> => {
     const validatedSchema = schema.safeParse(data);
 
     if (!validatedSchema.success) {
@@ -24,6 +30,6 @@ export const createSafeAction = <TInput, TOutput>(
       };
     }
 
-    return handler(validatedSchema.data);
+    return handler(validatedSchema.data, orgId);
   };
 };
