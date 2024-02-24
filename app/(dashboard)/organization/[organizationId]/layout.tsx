@@ -1,8 +1,25 @@
+import { startCase } from "lodash";
 import { OrganizationControl } from "./_components/organization-control";
 import { auth } from "@/auth";
+import { db } from "@/lib/db";
 
 interface OrganizationIdLayoutProps {
   children: React.ReactNode;
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { organizationId: string };
+}) {
+  const organization = await db.organization.findUnique({
+    where: {
+      id: params.organizationId,
+    },
+  });
+  return {
+    title: startCase(organization?.name || "organization"),
+  };
 }
 
 export default async function OrganizationIdLayout({

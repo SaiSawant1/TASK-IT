@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Dialog,
   DialogContent,
@@ -20,13 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useSession } from "next-auth/react";
-import { createOrganization } from "@/actions/organization";
 import { FormSuccess } from "@/components/form-success";
 import { FormError } from "@/components/form-error";
 import { useState } from "react";
-import { useCreatOrg } from "@/hooks/use-action-create-org";
+import { useCreateOrg } from "@/hooks/use-action-create-org";
 import { createOrgAction } from "@/actions/create-organization";
+import { useRouter } from "next/navigation";
 
 interface CreateOrgFormProps {
   isModalOpen: boolean;
@@ -36,15 +34,18 @@ export const CreateOrgForm = ({
   isModalOpen,
   setModalClose,
 }: CreateOrgFormProps) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof CreateOrgSchema>>({
     resolver: zodResolver(CreateOrgSchema),
     defaultValues: {
       name: "",
     },
   });
-  const { error, execute, isLoading } = useCreatOrg(createOrgAction, {
-    onSuccess: (_) => {
+  const { error, execute, isLoading } = useCreateOrg(createOrgAction, {
+    onSuccess: (data) => {
       setSuccess("organization created");
+      router.push(`/organization/${data.id}`);
+      setModalClose();
     },
   });
   const [success, setSuccess] = useState<string | undefined>("");

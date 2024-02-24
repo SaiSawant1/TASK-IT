@@ -33,3 +33,20 @@ export const createSafeAction = <TInput, TOutput>(
     return handler(validatedSchema.data, orgId);
   };
 };
+export const createSafeOrgAction = <TInput, TOutput>(
+  schema: z.Schema<TInput>,
+  handler: (data: TInput) => Promise<ActionState<TInput, TOutput>>,
+) => {
+  return async (data: TInput): Promise<ActionState<TInput, TOutput>> => {
+    const validatedSchema = schema.safeParse(data);
+
+    if (!validatedSchema.success) {
+      return {
+        fieldErrors: validatedSchema.error.flatten()
+          .fieldErrors as FieldErrors<TInput>,
+      };
+    }
+
+    return handler(validatedSchema.data);
+  };
+};

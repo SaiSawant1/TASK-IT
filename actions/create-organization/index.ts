@@ -4,7 +4,7 @@ import { InputType, ReturnType } from "./types";
 import { db } from "@/lib/db";
 import { Organization } from "@prisma/client";
 import { revalidatePath } from "next/cache";
-import { createSafeAction } from "@/lib/create-safe-action";
+import { createSafeOrgAction } from "@/lib/create-safe-action";
 import { CreateOrganization } from "./schema";
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -36,4 +36,4 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   return { data: organization };
 };
 
-export const createOrgAction = createSafeAction(CreateOrganization, handler);
+export const createOrgAction = createSafeOrgAction(CreateOrganization, handler);

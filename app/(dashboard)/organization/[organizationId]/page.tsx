@@ -1,14 +1,17 @@
 import { Separator } from "@/components/ui/separator";
 import { Info } from "./_components/info";
-import { BoardList } from "./_components/board-list";
+import { BoardList, BoardListSkeleton } from "./_components/board-list";
+import { Suspense } from "react";
 
-export default async function OrganizationIdPage() {
+export default function OrganizationIdPage() {
   return (
     <div className="w-full mb-20 ">
       <Info />
       <Separator className="my-4" />
       <div className="px-2 md:px-4">
-        <BoardList />
+        <Suspense fallback={<BoardListSkeleton />}>
+          <BoardList />
+        </Suspense>
       </div>
     </div>
   );

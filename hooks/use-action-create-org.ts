@@ -12,7 +12,7 @@ type Action<TInput, TOutput> = (
   data: TInput,
 ) => Promise<ActionState<TInput, TOutput>>;
 
-export const useCreatOrg = <TInput, TOutput>(
+export const useCreateOrg = <TInput, TOutput>(
   action: Action<TInput, TOutput>,
   options: UseActionOption<TOutput>,
 ) => {
