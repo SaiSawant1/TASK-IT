@@ -1,9 +1,13 @@
 "use client";
 
+import { UpdateBoard } from "@/actions/update-board";
 import { FormInput } from "@/components/form/form-input";
 import { Button } from "@/components/ui/button";
+import { useAction } from "@/hooks/use-action";
+import useCurrentOrg from "@/store";
 import { Board } from "@prisma/client";
 import { ElementRef, useRef, useState } from "react";
+import { toast } from "sonner";
 
 interface BoardTitleFormProps {
   data: Board;
@@ -13,6 +17,18 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const formRef = useRef<ElementRef<"form">>(null);
   const inputRef = useRef<ElementRef<"input">>(null);
+  const orgId = useCurrentOrg((state) => state.organizationId);
+
+  const { error, isLoading, execute } = useAction(UpdateBoard, {
+    onSuccess: (data) => {
+      toast.success(`Board Titile Updated to ${data.title}`);
+      disableEditing();
+    },
+    onError: (_) => {
+      disableEditing();
+      toast.error("Board update failed");
+    },
+  });
 
   const enableEditing = () => {
     setIsEditing(true);
@@ -24,7 +40,7 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
 
   const onSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    console.log(title);
+    execute({ title, id: data.id }, orgId).then((data) => {});
   };
 
   const disableEditing = () => {

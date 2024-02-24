@@ -32,7 +32,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   } catch (_) {
     return { error: "failed to create organization" };
   }
-  revalidatePath("/organization-select");
+  revalidatePath(`/organization/${organization.id}`);
   return { data: organization };
 };
 
