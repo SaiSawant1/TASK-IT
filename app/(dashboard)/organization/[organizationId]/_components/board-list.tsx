@@ -1,13 +1,23 @@
-"use client";
 import { FormPopOver } from "@/components/form/form-popover";
 import { Hint } from "@/components/hint";
 import { HelpCircle, User2 } from "lucide-react";
 import Link from "next/link";
 import { useBoards } from "@/hooks/use-boards";
 import { Skeleton } from "@/components/ui/skeleton";
+import { db } from "@/lib/db";
+import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";
+import { date } from "zod";
 
 export const BoardList = async () => {
-  const { boards } = useBoards();
+  const { data } = await fetchCurrentOrg();
+  if (!data) {
+    return;
+  }
+  const boards = await db.board.findMany({
+    where: {
+      orgId: data.orgId,
+    },
+  });
   return (
     <div className="space-y-4 ">
       <div className="flex items-center font-semibold text-lg text-neutral-700">

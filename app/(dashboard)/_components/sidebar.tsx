@@ -2,14 +2,13 @@
 import Link from "next/link";
 import { Plus } from "lucide-react";
 import { useLocalStorage } from "usehooks-ts";
-import useCurrentOrg from "@/store";
 import { Accordion } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { NavItem } from "./nav-item";
-import { useEffect, useState } from "react";
-import { getAllOrgsOfCurrentUser } from "@/actions/fetch-organization";
-import { Organization } from "@prisma/client";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useOrganizalitonList } from "@/hooks/use-organization-list";
+import { useEffect } from "react";
+import { useParams } from "next/navigation";
 interface SidebarProps {
   storageKey?: string;
 }
@@ -19,22 +18,8 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     {},
   );
 
-  const [data, setData] = useState<Organization[] | undefined>(undefined);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | undefined>("");
-
-  const currOrgId = useCurrentOrg((state) => state.organizationId);
-  useEffect(() => {
-    setIsLoading(true);
-    try {
-      getAllOrgsOfCurrentUser().then((value) => {
-        setData(value.data);
-        setError(value.error);
-      });
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const { isLoading, error, organization, data } = useOrganizalitonList();
+  const { organizationId } = useParams();
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
@@ -44,6 +29,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     },
     [],
   );
+  useEffect(() => {}, [organization]);
   const onExpand = (id: string) => {
     setExpanded((curr) => ({
       ...curr,
@@ -51,7 +37,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     }));
   };
 
-  if (isLoading || !data) {
+  if (isLoading || !organization || !data) {
     return (
       <>
         <div className="flex  items-center justify-between mb-2">
@@ -91,7 +77,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
         {data?.map((value) => (
           <NavItem
             key={value.id}
-            isActive={value.id === currOrgId}
+            isActive={value.id === organizationId}
             onExpand={onExpand}
             isExpanded={expanded[value.id]}
             organizationName={value.name}

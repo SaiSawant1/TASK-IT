@@ -5,11 +5,12 @@ import { CreateOrgForm } from "./create-org-form";
 import { useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useRouter } from "next/navigation";
-import { BuildingOffice2 } from "@styled-icons/heroicons-outline/BuildingOffice2";
 import { Separator } from "@/components/ui/separator";
-import useCurrentOrg from "@/store";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Building2Icon } from "lucide-react";
 import { useOrganizalitonList } from "@/hooks/use-organization-list";
+import { setCurrentOrg } from "@/actions/redis-org/redis-set-current-org";
+import useCurrentOrg from "@/store";
+import { toast } from "sonner";
 
 export const OrganizationList = () => {
   const router = useRouter();
@@ -17,22 +18,24 @@ export const OrganizationList = () => {
   const { isLoading, data } = useOrganizalitonList();
   const closeModal = () => {
     setCreateOrgModalOpen(false);
-    router.refresh();
   };
   const onClick = () => {
     setCreateOrgModalOpen(true);
   };
+
   const setOrgId = useCurrentOrg((state) => state.setOrgId);
   const setOrgName = useCurrentOrg((state) => state.setOrgName);
-  const setOrgList = useCurrentOrg((state) => state.setOrgList);
 
   const handleClick = (values: { id: string; name: string }) => {
-    setOrgId(values.id);
-    setOrgName(values.name);
-    if (OrganizationList.length > 0) {
-      setOrgList(data!);
-    }
-    router.push(`/organization/${values.id}`);
+    setCurrentOrg(values.id, values.name).then((res) => {
+      if (res.error) {
+        toast.error("failed to change the org");
+      }
+      setOrgId(res.data.orgId);
+      setOrgName(res.data.orgName);
+      toast.success(`switched to ${res.data.orgName}`);
+      router.push(`/organization/${values.id}`);
+    });
   };
 
   return (
@@ -61,7 +64,7 @@ export const OrganizationList = () => {
                 >
                   <div className="flex hover:bg-slate-200 transition-all rounded-md p-4 items-center justify-between">
                     <div className="flex gap-x-4 items-center">
-                      <BuildingOffice2 className="text-white bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
+                      <Building2Icon className="text-white bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
                       <p className="text-xl font-semibold">{data.name}</p>
                     </div>
                     <ArrowRight className="text-gray-500" />

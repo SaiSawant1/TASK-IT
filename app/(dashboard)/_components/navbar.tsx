@@ -5,7 +5,9 @@ import { OrganizationSwitcher } from "./organization-switcher";
 import { UserButton } from "@/components/user-button";
 import { MobileSidebar } from "./mobile-sidebar";
 import { FormPopOver } from "@/components/form/form-popover";
-export const Navbar = () => {
+import { getAllOrgsOfCurrentUser } from "@/actions/fetch-organization";
+export const Navbar = async () => {
+  const orgList = await getAllOrgsOfCurrentUser();
   return (
     <nav className="fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm bg-white flex items-center">
       <MobileSidebar />

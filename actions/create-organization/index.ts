@@ -6,6 +6,7 @@ import { Organization } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { createSafeOrgAction } from "@/lib/create-safe-action";
 import { CreateOrganization } from "./schema";
+import { setCurrentOrg } from "../redis-org/redis-set-current-org";
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
   if (!session?.user.id) {
@@ -32,6 +33,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   } catch (_) {
     return { error: "failed to create organization" };
   }
+  await setCurrentOrg(organization.id, organization.name);
   revalidatePath(`/organization/${organization.id}`);
   return { data: organization };
 };

@@ -1,4 +1,5 @@
 "use client";
+import { setCurrentOrg } from "@/actions/redis-org/redis-set-current-org";
 import {
   AccordionContent,
   AccordionItem,
@@ -55,7 +56,11 @@ export const NavItem = ({
     },
   ];
   const onClick = (href: string) => {
-    router.push(href);
+    setCurrentOrg(organizationId, organizationName).then((res) => {
+      if ((res.data.orgId = organizationId)) {
+        router.push(href);
+      }
+    });
   };
   const pathname = usePathname();
   return (
