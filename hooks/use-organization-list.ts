@@ -33,8 +33,8 @@ export const useOrganizalitonList = () => {
       fetchCurrentOrg().then((res) => {
         if (res.data?.orgId === organizationId) {
           setOrganization(res.data);
-          setOrgName(res.data.orgName);
-          setOrgId(res.data.orgId);
+          setOrgName(res.data?.orgName);
+          setOrgId(res.data?.orgId);
         }
         if (res.error) {
           setError(res.error);
