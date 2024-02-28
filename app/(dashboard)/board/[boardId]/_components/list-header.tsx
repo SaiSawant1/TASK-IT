@@ -6,7 +6,9 @@ import { useAction } from "@/hooks/use-action";
 import useCurrentOrg from "@/store";
 import { ListWithCards } from "@/types";
 import { ElementRef, useRef, useState } from "react";
+import { toast } from "sonner";
 import { useEventListener } from "usehooks-ts";
+import { ListOptions } from "./list-options";
 
 interface ListHeaderProps {
   data: ListWithCards;
@@ -18,6 +20,11 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
   const { execute, isLoading, fieldErrors } = useAction(ListUpdate, {
     onSuccess: (data) => {
       disableEditing();
+      setTitle(data.title);
+      toast.success(`board name updated to ${data.title}`);
+    },
+    onError: (error) => {
+      toast.error(`some thing went wrong ${error}`);
     },
   });
 
@@ -37,7 +44,11 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
     const id = formData.get("id") as string;
     const title = formData.get("title") as string;
     const boardId = formData.get("boardId") as string;
-    setTitle(title);
+
+    if (title == data.title) {
+      disableEditing();
+    }
+
     execute({ id, title, boardId }, orgId);
   };
 
@@ -49,6 +60,10 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
     if (e.key === "Escape") {
       formRef.current?.requestSubmit();
     }
+  };
+
+  const onBlur = () => {
+    formRef.current?.requestSubmit();
   };
 
   useEventListener("keydown", onKeyDown);
@@ -67,7 +82,7 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
             placeholder={"Enter list title.."}
             defaultValue={data.title}
             className="text-sm px-[7px] py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition truncate bg-transparent focus:bg-white"
-            onBlur={() => {}}
+            onBlur={onBlur}
           />
         </form>
       ) : (
@@ -78,6 +93,7 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
           {title}
         </div>
       )}
+      <ListOptions data={data} onAddCard={() => {}} />
     </div>
   );
 };
