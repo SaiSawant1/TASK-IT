@@ -1,5 +1,3 @@
-"use client";
-
 import { ListUpdate } from "@/actions/update-list";
 import { FormInput } from "@/components/form/form-input";
 import { useAction } from "@/hooks/use-action";
@@ -12,9 +10,10 @@ import { ListOptions } from "./list-options";
 
 interface ListHeaderProps {
   data: ListWithCards;
+  onAddCard: () => void;
 }
 
-export const ListHeader = ({ data }: ListHeaderProps) => {
+export const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
   const { execute, isLoading, fieldErrors } = useAction(ListUpdate, {
@@ -93,7 +92,7 @@ export const ListHeader = ({ data }: ListHeaderProps) => {
           {title}
         </div>
       )}
-      <ListOptions data={data} onAddCard={() => {}} />
+      <ListOptions data={data} onAddCard={onAddCard} />
     </div>
   );
 };
