@@ -61,9 +61,6 @@ export const ListContainer = ({ data, boardId }: ListContainerProps) => {
   }, [data]);
   const onDragEnd = (result: any) => {
     const { destination, source, type } = result;
-    console.log("destination", destination);
-    console.log("source", source);
-    console.log("type", type);
     if (!destination) return;
     // If dropped int the same position
     if (

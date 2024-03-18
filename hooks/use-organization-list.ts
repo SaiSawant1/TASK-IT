@@ -19,7 +19,6 @@ export const useOrganizalitonList = () => {
   const setOrgId = useCurrentOrg((state) => state.setOrgId);
   const { organizationId } = useParams();
   useEffect(() => {
-    console.log("useOrgList");
     setIsLoading(true);
     try {
       getAllOrgsOfCurrentUser().then((res) => {
