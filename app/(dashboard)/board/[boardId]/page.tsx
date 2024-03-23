@@ -1,5 +1,4 @@
 import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";
-import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { redirect } from "next/navigation";
 import { ListContainer } from "./_components/list-container";
@@ -11,7 +10,6 @@ interface BoardIdPageProps {
 export default async function BoardIdPage({
   params: { boardId },
 }: BoardIdPageProps) {
-  const session = await auth();
   const { data } = await fetchCurrentOrg();
 
   if (!data?.orgId) {
