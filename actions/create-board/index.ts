@@ -6,6 +6,8 @@ import { db } from "@/lib/db";
 import { revalidatePath } from "next/cache";
 import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
+import { createAuditLog } from "@/lib/create-audit-log";
+import { ACTION, ENTITY_TYPE } from "@prisma/client";
 const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   const session = await auth();
   if (!session?.user.id) {
@@ -38,6 +40,12 @@ const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
         imageLinkHtml,
         imageUserName,
       },
+    });
+    await createAuditLog({
+      entityType: ENTITY_TYPE.BOARD,
+      action: ACTION.CREATE,
+      entityTitle: board.title,
+      entityId: board.id,
     });
   } catch (error) {
     return { error: "Data base error. Failed to create Borad" };
