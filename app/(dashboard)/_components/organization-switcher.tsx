@@ -1,5 +1,4 @@
 "use client";
-import { useRouter } from "next/navigation";
 import {
   Popover,
   PopoverContent,
@@ -25,7 +24,7 @@ export const OrganizationSwitcher = () => {
         }
       });
     }
-  }, [currentOrganizationName]);
+  }, [currentOrganizationName, setOrgName, setOrgId]);
 
   return (
     currentOrganizationName !== "" && (

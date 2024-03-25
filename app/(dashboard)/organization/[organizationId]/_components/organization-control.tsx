@@ -1,17 +1,11 @@
 "use client";
 
 import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";
-import { setCurrentOrg } from "@/actions/redis-org/redis-set-current-org";
-import { useOrganizalitonList } from "@/hooks/use-organization-list";
-import useCurrentOrg from "@/store";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export const OrganizationControl = () => {
   const params = useParams();
-  const setOrgId = useCurrentOrg((state) => state.setOrgId);
-  const setOrgName = useCurrentOrg((state) => state.setOrgName);
-  const orgName = useCurrentOrg((state) => state.organizationName);
   const router = useRouter();
 
   useEffect(() => {
@@ -20,6 +14,6 @@ export const OrganizationControl = () => {
         router.push(`/organization-select`);
       }
     });
-  }, [params.organizationId]);
+  }, [params.organizationId, router]);
   return null;
 };
