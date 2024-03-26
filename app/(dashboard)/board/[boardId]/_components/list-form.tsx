@@ -31,7 +31,7 @@ export const ListForm = () => {
     setIsEditing(false);
   };
 
-  const { isLoading, execute, fieldErrors } = useAction(CreateList, {
+  const { execute, fieldErrors } = useAction(CreateList, {
     onSuccess: (data) => {
       toast.success(`List : ${data.title} created`);
       disableEditing();

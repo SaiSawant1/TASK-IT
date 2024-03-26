@@ -8,7 +8,7 @@ const pool = new RedisPool({
   lazyConnect: true,
   showFriendlyErrorStack: true,
   enableAutoPipelining: true,
-  maxRetriesPerRequest: 0,
+  maxRetriesPerRequest: 100,
 });
 
 export const getRedisClient = async () => {};
@@ -20,7 +20,7 @@ export function createRedisInstance() {
       lazyConnect: true,
       showFriendlyErrorStack: true,
       enableAutoPipelining: true,
-      maxRetriesPerRequest: 0,
+      maxRetriesPerRequest: 100,
       retryStrategy: (times: number) => {
         if (times > 3) {
           throw new Error(`[Redis] Could not connect after ${times} attempts`);

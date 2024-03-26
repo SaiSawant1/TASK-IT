@@ -19,7 +19,7 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
   const inputRef = useRef<ElementRef<"input">>(null);
   const orgId = useCurrentOrg((state) => state.organizationId);
 
-  const { error, isLoading, execute } = useAction(UpdateBoard, {
+  const { execute } = useAction(UpdateBoard, {
     onSuccess: (data) => {
       toast.success(`Board Titile Updated to ${data.title}`);
       disableEditing();
@@ -40,7 +40,7 @@ export const BoardTitleForm = ({ data }: BoardTitleFormProps) => {
 
   const onSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    execute({ title, id: data.id }, orgId).then((data) => {});
+    execute({ title, id: data.id }, orgId);
   };
 
   const disableEditing = () => {
