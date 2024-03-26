@@ -15,6 +15,7 @@ export const {
   },
   session: { strategy: "jwt" },
   adapter: PrismaAdapter(db),
+  trustHost: true,
   events: {
     async linkAccount({ user, account }) {
       await db.user.update({
