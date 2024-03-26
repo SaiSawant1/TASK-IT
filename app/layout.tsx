@@ -5,6 +5,7 @@ import { siteConfig } from "@/config/site";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
+import { ErrorBoundary } from "react-error-boundary";
 
 export const metadata: Metadata = {
   title: {
@@ -23,9 +24,11 @@ export default async function RootLayout({
   const session = await auth();
   return (
     <html lang="en">
-      <SessionProvider session={session}>
-        <body className={inter.className}>{children}</body>
-      </SessionProvider>
+      <ErrorBoundary fallback={<p>something went wrong</p>}>
+        <SessionProvider session={session}>
+          <body className={inter.className}>{children}</body>
+        </SessionProvider>
+      </ErrorBoundary>
     </html>
   );
 }
