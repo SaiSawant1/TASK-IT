@@ -22,21 +22,21 @@ export const useOrganizalitonList = () => {
     setIsLoading(true);
     try {
       getAllOrgsOfCurrentUser().then((res) => {
-        if (res.data) {
+        if (res?.data) {
           setData(res.data);
         }
-        if (res.error) {
+        if (res?.error) {
           setError(res.error);
         }
       });
       fetchCurrentOrg().then((res) => {
-        if (res.data?.orgId === organizationId) {
+        if (res?.data?.orgId === organizationId) {
           setOrganization(res.data);
           setOrgName(res.data?.orgName);
           setOrgId(res.data?.orgId);
         }
-        if (res.error) {
-          setError(res.error);
+        if (res?.error) {
+          setError(res?.error);
         }
       });
     } catch (_) {
@@ -44,7 +44,7 @@ export const useOrganizalitonList = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [organizationId]);
+  }, [organizationId, setOrgId, setOrgName]);
 
   return { organization, isLoading, data, error };
 };
