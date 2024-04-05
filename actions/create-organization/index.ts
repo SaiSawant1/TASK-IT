@@ -2,7 +2,7 @@
 import { auth } from "@/auth";
 import { InputType, ReturnType } from "./types";
 import { db } from "@/lib/db";
-import { Organization } from "@prisma/client";
+import { Organization, UserRole } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 import { createSafeOrgAction } from "@/lib/create-safe-action";
 import { CreateOrganization } from "./schema";
@@ -31,6 +31,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       data: {
         user: { connect: { id: session.user.id } },
         organization: { connect: { id: organization.id } },
+        role: UserRole.ADMIN,
       },
     });
   } catch (_) {

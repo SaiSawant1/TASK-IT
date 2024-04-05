@@ -49,7 +49,6 @@ export const CreateNewMembership = async (data: InputType) => {
         organization: { connect: { id: organization.id } },
       },
     });
-    revalidatePath(`/organization/${organization}/settings`);
     return { data: newMembership };
   } catch (error) {
     return { error: "internal server error" };

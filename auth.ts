@@ -41,7 +41,6 @@ export const {
       }
       if (session?.user) {
         session.user.emailVerified = token.emailVerified;
-        session.user.role = token.role;
       }
       return session;
     },
@@ -49,7 +48,6 @@ export const {
       if (token.sub) {
         const existingUser = await getUserByID(token.sub);
         if (existingUser) {
-          token.role = existingUser.role;
           token.emailVerified = existingUser.emailVerified;
         }
       }
