@@ -59,6 +59,7 @@ model  OrganizationMembership{
 model Organization{
     id            String    @id @default(cuid())
     name          String
+    token         String    
     members OrganizationMembership[]
   }
 
