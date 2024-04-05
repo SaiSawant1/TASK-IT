@@ -1,5 +1,4 @@
-import { Card, List, OrganizationMembership } from "@prisma/client";
-import { User } from "next-auth";
+import { User, Card, List, OrganizationMembership } from "@prisma/client";
 
 export type ListWithCards = List & {
   cards: Card[];
