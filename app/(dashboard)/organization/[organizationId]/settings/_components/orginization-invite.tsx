@@ -39,13 +39,13 @@ export const OrganizationInvite = ({
   };
 
   return (
-    <div className="w-full h-full">
+    <div className="w-full ">
       <h1 className="font-semibold text-xl">Invite members</h1>
       <p className="text-neutral-700 my-3">
         Any one with the invite link can join the Organization
       </p>
       <div className="flex justify-between items-end">
-        <div className="text-neutral-700 flex h-full w-96 bg-sky-400/20 space-x-2 p-3">
+        <div className="text-neutral-700 flex w-96 bg-sky-400/20 space-x-2 p-3">
           <Info className="text-yellow-400  w-6 h-6  rounded-xl text-center font-semibold " />
           <div>
             Click on the invite with link button and copy the invite link to
