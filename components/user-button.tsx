@@ -7,12 +7,18 @@ import { signOut, useSession } from "next-auth/react";
 import { Separator } from "./ui/separator";
 import { ExitIcon, GearIcon } from "@radix-ui/react-icons";
 import { Button } from "./ui/button";
+import { useRouter } from "next/navigation";
 
 export const UserButton = () => {
+  const router = useRouter();
   const { data } = useSession();
   const email = data?.user.email?.slice(0, 9) + "...";
   const handleClick = () => {
     signOut();
+  };
+
+  const onClickSetting = () => {
+    router.push(`/user/settings`);
   };
   return (
     <Popover>
@@ -36,7 +42,10 @@ export const UserButton = () => {
             <p className="font-semibold">{email}</p>
           </div>
           <Separator />
-          <Button className="px-2 flex items-center justify-between">
+          <Button
+            onClick={onClickSetting}
+            className="px-2 flex items-center justify-between"
+          >
             <p className="font-bold">settings</p>
             <GearIcon className="h-5 w-5" />
           </Button>
