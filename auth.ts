@@ -32,7 +32,7 @@ export const {
     async signIn({ user, account }) {
       if (account?.provider !== "credentials") return true;
       const existingUser = await getUserByID(user?.id!);
-      if (!existingUser || !existingUser.emailVerified) return false;
+      if (!existingUser) return false;
       return true;
     },
     async session({ token, session }: any) {
@@ -41,6 +41,7 @@ export const {
       }
       if (session?.user) {
         session.user.emailVerified = token.emailVerified;
+        session.user.image = token.picture;
       }
       return session;
     },
@@ -49,6 +50,7 @@ export const {
         const existingUser = await getUserByID(token.sub);
         if (existingUser) {
           token.emailVerified = existingUser.emailVerified;
+          token.picture = existingUser.image;
         }
       }
       return token;

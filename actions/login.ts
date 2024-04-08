@@ -19,16 +19,6 @@ export const login = async (payload: z.infer<typeof LoginSchema>) => {
   if (!existingUser || !existingUser.email || !existingUser.password) {
     return { error: "Invalid credentials" };
   }
-  if (!existingUser.emailVerified) {
-    const verificationToken = await generateVerificationToken(
-      existingUser.email,
-    );
-    await sendVerificationMail(
-      verificationToken.email,
-      verificationToken.token,
-    );
-    return { success: "verification email sent" };
-  }
   try {
     await signIn("credentials", {
       email,
