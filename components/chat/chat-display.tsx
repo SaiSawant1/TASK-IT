@@ -28,7 +28,7 @@ export const ChatDisplay = () => {
         if (isMine) {
           return (
             <li
-              className="self-end bg-blue-400 rounded-l-xl w-1/3 break-words text-center rounded-tr-2xl my-4 p-1"
+              className="self-end bg-blue-400 rounded-l-xl w-fit break-words text-center rounded-tr-2xl my-4 p-1"
               key={i}
             >
               <div>{msg + i}</div>
@@ -37,7 +37,7 @@ export const ChatDisplay = () => {
         }
         return (
           <li
-            className="bg-blue-400 rounded-r-xl rounded-tl-2xl w-1/3 break-words text-center my-4 p-1"
+            className="bg-blue-400  rounded-r-xl rounded-tl-2xl w-fit break-words text-center my-4 p-1"
             key={i}
           >
             <div>{msg + i}</div>

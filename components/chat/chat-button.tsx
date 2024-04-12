@@ -9,6 +9,7 @@ import {
 } from "../ui/sheet";
 import { Input } from "../ui/input";
 import { ChatDisplay } from "./chat-display";
+import { SocketIndicator } from "./socket-indicator";
 
 export const ChatButton = () => {
   return (
@@ -19,7 +20,10 @@ export const ChatButton = () => {
         </SheetTrigger>
         <SheetContent side={"right"}>
           <SheetHeader>
-            <SheetTitle>Organization Chat</SheetTitle>
+            <SheetTitle className="flex space-x-4 justify-start items-center">
+              <h1>Organization Chat</h1>
+              <SocketIndicator />
+            </SheetTitle>
             <SheetDescription>
               Communicated with in an organization
             </SheetDescription>
