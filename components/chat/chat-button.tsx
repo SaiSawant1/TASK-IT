@@ -10,8 +10,16 @@ import {
 import { Input } from "../ui/input";
 import { ChatDisplay } from "./chat-display";
 import { SocketIndicator } from "./socket-indicator";
+import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";
+import { ChatInput } from "./chat-input";
 
-export const ChatButton = () => {
+export const ChatButton = async () => {
+  const org = await fetchCurrentOrg();
+
+  if (!org.data?.orgId) {
+    return;
+  }
+
   return (
     <div className="fixed bottom-10 right-10">
       <Sheet>
@@ -30,7 +38,13 @@ export const ChatButton = () => {
           </SheetHeader>
           <div className="h-full space-y-2 flex flex-col pb-12">
             <ChatDisplay />
-            <Input placeholder="This is text" />
+            <ChatInput
+              name={org.data?.orgName}
+              apiUrl="/api/socket/messages"
+              query={{
+                organizationId: org.data?.orgId,
+              }}
+            />
           </div>
         </SheetContent>
       </Sheet>
