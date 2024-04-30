@@ -1,6 +1,8 @@
 # Kanban Board Application
 
 ![Kanban Board Application](screenshots/task-it-landing-page.png)
+![Kanban Board Application](screenshots/task-it-ss1.png)
+![Kanban Board Application](screenshots/task-it-ss2.png)
 
 ## Description
 
