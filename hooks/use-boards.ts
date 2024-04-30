@@ -6,23 +6,23 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export const useBoards = () => {
-  const { organizationId } = useParams();
+  const params = useParams();
 
   const [boards, setBoards] = useState<Board[] | undefined>();
 
   useEffect(() => {
-    if (!organizationId) {
+    if (!params?.organizationId) {
       return;
     }
-    if (Array.isArray(organizationId)) {
+    if (Array.isArray(params?.organizationId)) {
       return;
     }
-    getBoards(organizationId).then((res) => {
+    getBoards(params?.organizationId).then((res) => {
       if (res.data) {
         setBoards(res.data);
       }
     });
-  }, [organizationId]);
+  }, [params?.organizationId]);
 
   return { boards };
 };

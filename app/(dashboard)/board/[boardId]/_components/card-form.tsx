@@ -80,7 +80,7 @@ export const CardForm = forwardRef<HTMLTextAreaElement, CardFormProps>(
             hidden
             id="boardId"
             name="boardId"
-            defaultValue={params.boardId}
+            defaultValue={params?.boardId}
           />
           <div className="flex items-center gap-x-1">
             <FormSubmit>Add card..</FormSubmit>

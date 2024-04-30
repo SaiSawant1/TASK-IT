@@ -11,7 +11,7 @@ export const NewVerificationForm = () => {
   const searchParams = useSearchParams();
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
-  const token = searchParams.get("token");
+  const token = searchParams?.get("token");
   const onSubmit = useCallback(() => {
     if (!token) return;
     emailVerification(token).then((data) => {

@@ -17,7 +17,7 @@ export const useOrganizalitonList = () => {
   >();
   const setOrgName = useCurrentOrg((state) => state.setOrgName);
   const setOrgId = useCurrentOrg((state) => state.setOrgId);
-  const { organizationId } = useParams();
+  const params = useParams();
   useEffect(() => {
     setIsLoading(true);
     try {
@@ -30,10 +30,10 @@ export const useOrganizalitonList = () => {
         }
       });
       fetchCurrentOrg().then((res) => {
-        if (res?.data?.orgId === organizationId) {
+        if (res?.data?.orgId === params?.organizationId) {
           setOrganization(res.data);
-          setOrgName(res.data?.orgName);
-          setOrgId(res.data?.orgId);
+          setOrgName(res?.data?.orgName!);
+          setOrgId(res?.data?.orgId!);
         }
         if (res?.error) {
           setError(res?.error);
@@ -44,7 +44,7 @@ export const useOrganizalitonList = () => {
     } finally {
       setIsLoading(false);
     }
-  }, [organizationId, setOrgId, setOrgName]);
+  }, [params?.organizationId, setOrgId, setOrgName]);
 
   return { organization, isLoading, data, error };
 };

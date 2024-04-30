@@ -18,8 +18,8 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
     {},
   );
 
-  const { isLoading, error, organization, data } = useOrganizalitonList();
-  const { organizationId } = useParams();
+  const { isLoading, organization, data } = useOrganizalitonList();
+  const params = useParams();
   const defaultAccordionValue: string[] = Object.keys(expanded).reduce(
     (acc: string[], key: string) => {
       if (expanded[key]) {
@@ -77,7 +77,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
         {data?.map((value) => (
           <NavItem
             key={value.id}
-            isActive={value.id === organizationId}
+            isActive={value.id === params?.organizationId}
             onExpand={onExpand}
             isExpanded={expanded[value.id]}
             organizationName={value.name}

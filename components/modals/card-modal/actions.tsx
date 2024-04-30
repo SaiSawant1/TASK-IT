@@ -48,13 +48,13 @@ export const Actions = ({ data }: ActionsProps) => {
   const onCopy = () => {
     setLoading(true);
     const id = data.id;
-    const boardId = params.boardId as string;
+    const boardId = params?.boardId as string;
     ExecuteCardCopy({ id, boardId }, orgId);
   };
   const onDelete = () => {
     setLoading(true);
     const id = data.id;
-    const boardId = params.boardId as string;
+    const boardId = params?.boardId as string;
     ExecuteDeleteCard({ id, boardId }, orgId);
   };
   return (

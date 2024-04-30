@@ -10,10 +10,10 @@ export const OrganizationControl = () => {
 
   useEffect(() => {
     fetchCurrentOrg().then((res) => {
-      if (res.data?.orgId !== params.organizationId) {
+      if (res.data?.orgId !== params?.organizationId) {
         router.push(`/organization-select`);
       }
     });
-  }, [params.organizationId, router]);
+  }, [params?.organizationId, router]);
   return null;
 };

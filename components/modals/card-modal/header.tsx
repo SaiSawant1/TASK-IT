@@ -42,7 +42,7 @@ export const Header = ({ data }: HeaderProps) => {
   };
   const onSumbit = (formData: FormData) => {
     const title = formData.get("title") as string;
-    const boardId = params.boardId as string;
+    const boardId = params?.boardId as string;
     if (title === data.title) return;
     execute({ title, boardId, id: data.id }, orgId);
   };
