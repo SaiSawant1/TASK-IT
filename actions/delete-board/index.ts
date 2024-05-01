@@ -9,6 +9,7 @@ import { DeleteBoardSchema } from "./schema";
 import { redirect } from "next/navigation";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { decrementAvailableCount } from "@/lib/org-limit";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   const session = await auth();
@@ -35,6 +36,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   } catch (error) {
     return { error: `${error}` };
   }
+  await decrementAvailableCount();
   revalidatePath(`/organization/${board.orgId}`);
 
   redirect(`/organization/${board.orgId}`);

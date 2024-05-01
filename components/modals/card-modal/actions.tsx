@@ -23,7 +23,7 @@ export const Actions = ({ data }: ActionsProps) => {
   const [isLoading, setLoading] = useState(false);
   const { execute: ExecuteCardCopy } = useAction(CopyCard, {
     onSuccess: (data) => {
-      toast.success(`${data.title} Card copied`);
+      toast.success(`${data?.title} Card copied`);
       setLoading(false);
     },
     onError: (err) => {

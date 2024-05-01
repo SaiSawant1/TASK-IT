@@ -8,11 +8,21 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { CreateBoard } from "./schema";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
+import { hasAvailabelCount, incrementAvailableCount } from "@/lib/org-limit";
 const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   const session = await auth();
   if (!session?.user.id) {
     return {
       error: "Unauthorized",
+    };
+  }
+
+  const canCreate = await hasAvailabelCount();
+
+  if (!canCreate) {
+    return {
+      error:
+        "You have reached your limit of free boards. Please upgrade to create more.",
     };
   }
   const { title, image } = data;
@@ -50,6 +60,7 @@ const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   } catch (error) {
     return { error: "Data base error. Failed to create Borad" };
   }
+  await incrementAvailableCount();
   revalidatePath(`/board/${board.id}`);
   return { data: board };
 };
