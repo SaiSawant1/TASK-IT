@@ -1,4 +1,3 @@
-import { Header } from "@/components/auth/header";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 interface CardWrapperProps {
