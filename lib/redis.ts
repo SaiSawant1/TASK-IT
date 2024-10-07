@@ -31,6 +31,8 @@ export function createRedisInstance() {
     };
 
     options.port = 6379;
+    options.password = process.env.NEXT_PUBLIC_REDIS_PASSWORD;
+    options.host = process.env.NEXT_PUBLIC_REDIS_HOST;
 
     const redis = new Redis(options);
 
