@@ -8,7 +8,7 @@ import {
 } from "@/routes";
 
 const { auth } = NextAuth(authConfig);
-export default auth((req) => {
+export default auth((req: any) => {
   const { nextUrl } = req;
   const isLoggedIn = !!req.auth;
   const isAPIAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
@@ -32,6 +32,12 @@ export default auth((req) => {
   }
   return null;
 });
+
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    // Skip Next.js internals and all static files, unless found in search params
+    "/((?!_next|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)",
+    // Always run for API routes
+    "/(api|trpc)(.*)",
+  ],
 };

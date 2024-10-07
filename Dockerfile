@@ -1,6 +1,12 @@
 FROM node:21-alpine
+
 WORKDIR /app
+
 COPY ./ /app
+
 RUN npm install
-EXPOSE 3000
-CMD ["npm","run","dev"]
+RUN npx prisma generate
+
+# Set the default command to run your application
+CMD ["sh", "-c", "npx prisma db push && npm run dev"]
+

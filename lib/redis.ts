@@ -1,22 +1,22 @@
-import RedisPool from "ioredis";
+//import RedisPool from "ioredis";
 import Redis, { RedisOptions } from "ioredis";
 
-const pool = new RedisPool({
+/*const pool = new RedisPool({
   host: process.env.NEXT_PUBLIC_REDIS_HOST,
-  port: 10577,
-  password: process.env.NEXT_PUBLIC_REDIS_PASSWORD,
+  port: 6379,
   lazyConnect: true,
   showFriendlyErrorStack: true,
   enableAutoPipelining: true,
   maxRetriesPerRequest: 100,
 });
+*/
 
 export const getRedisClient = async () => {};
 
 export function createRedisInstance() {
   try {
     const options: RedisOptions = {
-      host: process.env.NEXT_PUBLIC_REDIS_HOST,
+      host: "redis",
       lazyConnect: true,
       showFriendlyErrorStack: true,
       enableAutoPipelining: true,
@@ -30,9 +30,7 @@ export function createRedisInstance() {
       },
     };
 
-    options.port = 10577;
-
-    options.password = process.env.NEXT_PUBLIC_REDIS_PASSWORD;
+    options.port = 6379;
 
     const redis = new Redis(options);
 
