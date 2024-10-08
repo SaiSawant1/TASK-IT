@@ -45,7 +45,7 @@ export default function MarketingPage() {
         all by TASK-IT
       </div>
       <Button className="mt-6" size={"lg"} asChild>
-        <Link href={"/sign-up"}>Lets TASK-IT</Link>
+        <Link href={"/sign-up"}>Lets TASK-IT {process.env.NEXTAUTH_URL}</Link>
       </Button>
     </div>
   );
