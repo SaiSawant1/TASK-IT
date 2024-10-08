@@ -6,7 +6,6 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 const inter = Inter({ subsets: ["latin"] });
 import { ErrorBoundary } from "react-error-boundary";
-import { SocketProvider } from "@/components/providers/socket-provider";
 
 export const metadata: Metadata = {
   title: {
@@ -27,9 +26,7 @@ export default async function RootLayout({
     <html lang="en">
       <ErrorBoundary fallback={<p>something went wrong</p>}>
         <SessionProvider session={session}>
-          <SocketProvider>
-            <body className={inter.className}>{children}</body>
-          </SocketProvider>
+          <body className={inter.className}>{children}</body>
         </SessionProvider>
       </ErrorBoundary>
     </html>
