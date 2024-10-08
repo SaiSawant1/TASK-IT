@@ -32,4 +32,5 @@ export default {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
   ],
+  trustHost: process.env.NODE_ENV === "production" ? true : false, // Automatically trusts the production domain
 } satisfies NextAuthConfig;
