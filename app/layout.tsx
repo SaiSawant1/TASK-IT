@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
-const inter = Inter({ subsets: ["latin"] });
 import { ErrorBoundary } from "react-error-boundary";
 
 export const metadata: Metadata = {
@@ -26,7 +24,7 @@ export default async function RootLayout({
     <html lang="en">
       <ErrorBoundary fallback={<p>something went wrong</p>}>
         <SessionProvider session={session}>
-          <body className={inter.className}>{children}</body>
+          <body>{children}</body>
         </SessionProvider>
       </ErrorBoundary>
     </html>

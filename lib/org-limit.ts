@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+//import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { MAX_FREE_BOARD } from "@/constants/boards";
 import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";

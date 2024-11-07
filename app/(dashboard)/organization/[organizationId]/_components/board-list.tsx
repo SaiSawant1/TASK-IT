@@ -7,6 +7,7 @@ import { db } from "@/lib/db";
 import { fetchCurrentOrg } from "@/actions/redis-org/redis-fetch-current-org";
 import { MAX_FREE_BOARD } from "@/constants/boards";
 import { getAvailableCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 export const BoardList = async () => {
   const { data } = await fetchCurrentOrg();
@@ -20,6 +21,7 @@ export const BoardList = async () => {
   });
 
   const availableCount = await getAvailableCount();
+  const isPro = await checkSubscription();
   return (
     <div className="space-y-4 ">
       <div className="flex items-center font-semibold text-lg text-neutral-700">
@@ -46,7 +48,9 @@ export const BoardList = async () => {
           >
             <p className="text-sm">Create new Board</p>
             <span className="text-xs">
-              {`${MAX_FREE_BOARD - availableCount} remaining`}
+              {isPro
+                ? "Unlimited"
+                : `${MAX_FREE_BOARD - availableCount} remaining`}
             </span>
             <Hint
               description={`Free Workspaces can have upto 5 different boards. For unlimited boards upgrade this Workspaces`}

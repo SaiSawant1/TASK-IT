@@ -9,6 +9,7 @@ import { CreateBoard } from "./schema";
 import { createAuditLog } from "@/lib/create-audit-log";
 import { ACTION, ENTITY_TYPE } from "@prisma/client";
 import { hasAvailabelCount, incrementAvailableCount } from "@/lib/org-limit";
+import { checkSubscription } from "@/lib/subscription";
 const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   const session = await auth();
   if (!session?.user.id) {
@@ -18,8 +19,9 @@ const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   }
 
   const canCreate = await hasAvailabelCount();
+  const isPro = await checkSubscription();
 
-  if (!canCreate) {
+  if (!canCreate && !isPro) {
     return {
       error:
         "You have reached your limit of free boards. Please upgrade to create more.",
@@ -60,7 +62,9 @@ const handler = async (data: InputType, orgId: string): Promise<ReturnType> => {
   } catch (error) {
     return { error: "Data base error. Failed to create Borad" };
   }
-  await incrementAvailableCount();
+  if (!isPro) {
+    await incrementAvailableCount();
+  }
   revalidatePath(`/board/${board.id}`);
   return { data: board };
 };

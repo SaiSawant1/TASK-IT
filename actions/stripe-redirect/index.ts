@@ -46,7 +46,7 @@ const handler = async (dataInput: InputType): Promise<ReturnType> => {
         line_items: [
           {
             price_data: {
-              currency: "INR",
+              currency: "USD",
               product_data: {
                 name: "Task-It pro",
                 description: "Unlimited boards for your organization",
