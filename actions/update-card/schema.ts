@@ -18,5 +18,6 @@ export const UpdateCardSchema = z.object({
       })
       .min(3),
   ),
+  bg: z.optional(z.string()),
   id: z.string(),
 });

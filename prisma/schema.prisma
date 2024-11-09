@@ -111,6 +111,7 @@ model Card {
   title       String
   order       Int
   description String? @db.Text
+  bg          String?
 
   listId String
   list   List   @relation(fields: [listId], references: [id], onDelete: Cascade)

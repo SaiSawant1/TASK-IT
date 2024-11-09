@@ -10,6 +10,7 @@ import { Description } from "./description";
 import { Actions } from "./actions";
 import { AuditLog } from "@prisma/client";
 import { Activity } from "./activity";
+import { ColorPicker } from "./color-picker";
 
 export const CardModal = () => {
   const id = useCardModal((state) => state.id);
@@ -36,6 +37,11 @@ export const CardModal = () => {
                 <Description.Skeleton />
               ) : (
                 <Description data={cardData} />
+              )}
+              {!cardData ? (
+                <Description.Skeleton />
+              ) : (
+                <ColorPicker data={cardData} />
               )}
               {!auditLogsData ? (
                 <Activity.Skeleton />

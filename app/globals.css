@@ -12,6 +12,11 @@ body,
   :root {
     --background: 0 0% 100%;
     --foreground: 0 0% 3.9%;
+    --pastelred: #ff686b;
+    --pastelgreen: #a5ffd6;
+    --pastelblue: #749bd2;
+    --pastelyellow: #ffd988;
+    --pastelviolet: #b388eb;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 3.9%;
@@ -79,4 +84,20 @@ body,
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.bg-pastel-red {
+  background-color: var(--pastelred);
+}
+.bg-pastel-green {
+  background-color: var(--pastelgreen);
+}
+.bg-pastel-blue {
+  background-color: var(--pastelblue);
+}
+.bg-pastel-yellow {
+  background-color: var(--pastelyellow);
+}
+.bg-pastel-violet {
+  background-color: var(--pastelviolet);
 }

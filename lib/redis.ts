@@ -5,7 +5,6 @@ export function createRedisInstance() {
     let redis;
 
     /** dev configuration
-
     const options: RedisOptions = {
       host: process.env.NEXT_PUBLIC_REDIS_HOST,
       port: 6379,
@@ -22,7 +21,6 @@ export function createRedisInstance() {
     };
     redis = new Redis(options);
     **/
-    //Production configuration
 
     redis = new Redis(process.env.NEXT_PUBLIC_REDIS_URL!);
 
