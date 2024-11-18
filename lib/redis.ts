@@ -4,23 +4,26 @@ export function createRedisInstance() {
   try {
     let redis;
 
-    /** dev configuration
-    const options: RedisOptions = {
-      host: process.env.NEXT_PUBLIC_REDIS_HOST,
-      port: 6379,
-      lazyConnect: true,
-      showFriendlyErrorStack: true,
-      enableAutoPipelining: true,
-      maxRetriesPerRequest: 100,
-      retryStrategy: (times: number) => {
-        if (times > 3) {
-          throw new Error(`[Redis] Could not connect after ${times} attempts`);
-        }
-        return Math.min(times * 200, 1000);
-      },
-    };
-    redis = new Redis(options);
-    **/
+    if (process.env.NODE_ENV === "development") {
+      const options: RedisOptions = {
+        host: process.env.NEXT_PUBLIC_REDIS_HOST,
+        port: 6379,
+        lazyConnect: true,
+        showFriendlyErrorStack: true,
+        enableAutoPipelining: true,
+        maxRetriesPerRequest: 100,
+        retryStrategy: (times: number) => {
+          if (times > 3) {
+            throw new Error(
+              `[Redis] Could not connect after ${times} attempts`,
+            );
+          }
+          return Math.min(times * 200, 1000);
+        },
+      };
+      redis = new Redis(options);
+      return redis;
+    }
 
     redis = new Redis(process.env.NEXT_PUBLIC_REDIS_URL!);
 
