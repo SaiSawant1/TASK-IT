@@ -15,7 +15,7 @@ import { toast } from "sonner";
 export const OrganizationList = () => {
   const router = useRouter();
   const [isCreateOrgModalOpen, setCreateOrgModalOpen] = useState(false);
-  const { isLoading, data } = useOrganizalitonList();
+  const { isLoading, data, error } = useOrganizalitonList();
   const closeModal = () => {
     setCreateOrgModalOpen(false);
   };
@@ -56,22 +56,28 @@ export const OrganizationList = () => {
         ) : (
           <div>
             <ScrollArea className="w-full h-36">
-              {data?.map((data) => (
-                <div
-                  key={data.id}
-                  className="cursor-pointer"
-                  onClick={() => handleClick(data)}
-                >
-                  <div className="flex hover:bg-slate-200 transition-all rounded-md p-4 items-center justify-between">
-                    <div className="flex gap-x-4 items-center">
-                      <Building2Icon className="text-white bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
-                      <p className="text-xl font-semibold">{data.name}</p>
+              {!error ? (
+                data?.map((data) => (
+                  <div
+                    key={data.id}
+                    className="cursor-pointer"
+                    onClick={() => handleClick(data)}
+                  >
+                    <div className="flex hover:bg-slate-200 transition-all rounded-md p-4 items-center justify-between">
+                      <div className="flex gap-x-4 items-center">
+                        <Building2Icon className="text-white bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-pink-300 via-purple-300 to-indigo-400 h-10 border-black rounded-md w-10" />
+                        <p className="text-xl font-semibold">{data.name}</p>
+                      </div>
+                      <ArrowRight className="text-gray-500" />
                     </div>
-                    <ArrowRight className="text-gray-500" />
+                    <Separator />
                   </div>
-                  <Separator />
+                ))
+              ) : (
+                <div className="text-red-800 w-full text-center border-2 border-red-800 font-bold rounded-lg p-4">
+                  No Organization Found
                 </div>
-              ))}
+              )}
             </ScrollArea>
           </div>
         )}
