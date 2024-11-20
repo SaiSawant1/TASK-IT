@@ -2,7 +2,6 @@
 
 import { auth } from "@/auth";
 import { createRedisInstance } from "@/lib/redis";
-import { revalidatePath } from "next/cache";
 
 interface organization {
   orgId: string;
@@ -31,7 +30,6 @@ export const fetchCurrentOrg = async (): Promise<ReturnType> => {
   const data = JSON.parse(cached);
 
   redis.disconnect();
-  revalidatePath(`/organization/${data.orgId}`);
 
   return { data: data };
 };

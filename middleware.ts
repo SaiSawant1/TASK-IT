@@ -1,5 +1,3 @@
-import authConfig from "@/auth.config";
-import NextAuth from "next-auth";
 import {
   DEFAULT_LOGIN_REDIRECT,
   apiAuthPrefix,
@@ -7,31 +5,49 @@ import {
   publicRoutes,
 } from "@/routes";
 
-const { auth } = NextAuth(authConfig);
-export default auth((req: any) => {
-  const { nextUrl } = req;
-  const isLoggedIn = !!req.auth;
+import { NextApiRequest, NextApiResponse } from "next";
+import { auth } from "@/auth";
+
+interface AuthRequest extends NextApiRequest {
+  nextUrl: URL;
+}
+
+export default async function handler(req: AuthRequest, res: NextApiResponse) {
+  const nextUrl = new URL(
+    req.nextUrl.pathname || "",
+    `http://${req.headers.host}`,
+  );
+  const session = await auth();
+  let isLoggedIn = false;
+  if (session?.user) {
+    isLoggedIn = true;
+  }
   const isAPIAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
 
   if (nextUrl.pathname === "/" && isLoggedIn) {
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+    const newUrl = new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl.origin);
+    return Response.redirect(newUrl);
   }
 
   if (isAPIAuthRoute) return null;
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+      const newUrl = new URL(DEFAULT_LOGIN_REDIRECT, req.nextUrl.origin);
+      return Response.redirect(newUrl);
     }
     return null;
   }
+
   if (!isLoggedIn && !isPublicRoute) {
-    return Response.redirect(new URL("/login", nextUrl));
+    const newUrl = new URL("/login", req.nextUrl.origin);
+    return Response.redirect(newUrl);
   }
+
   return null;
-});
+}
 
 export const config = {
   matcher: [

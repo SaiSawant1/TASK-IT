@@ -38,7 +38,6 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     return { error: "failed to create organization" };
   }
   await setCurrentOrg(organization.id, organization.name);
-  revalidatePath(`/organization/${organization.id}`);
   return { data: organization };
 };
 
