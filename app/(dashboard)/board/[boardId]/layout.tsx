@@ -5,11 +5,11 @@ import { BoardNavbar } from "./_components/board-navbar";
 export async function generateMetadata({
   params,
 }: {
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }) {
   const board = await db.board.findUnique({
     where: {
-      id: params.boardId,
+      id: (await params).boardId,
     },
   });
 
@@ -19,15 +19,15 @@ export async function generateMetadata({
 }
 interface BoardIdLayoutProps {
   children: React.ReactNode;
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }
 export default async function BoardIdLayout({
   children,
-  params: { boardId },
+  params,
 }: BoardIdLayoutProps) {
   const board = await db.board.findUnique({
     where: {
-      id: boardId,
+      id: (await params).boardId,
     },
   });
 

@@ -3,9 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
   req: NextRequest,
-  context: { params: { organizationId: string } },
+  { params }: { params: Promise<{ organizationId: string }> },
 ) {
-  const organizationId = context.params.organizationId;
+  const organizationId = (await params).organizationId;
 
   try {
     const organization = await db.organization.findUnique({

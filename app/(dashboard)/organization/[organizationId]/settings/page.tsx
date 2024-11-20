@@ -6,15 +6,15 @@ import { OrganizationMembers } from "./_components/organization-members";
 export default async function SettingsPage({
   params,
 }: {
-  params: { organizationId: string };
+  params: Promise<{ organizationId: string }>;
 }) {
   return (
     <div className="w-full">
       <Info />
       <Separator className="my-2" />
-      <OrganizationInvite organizationId={params.organizationId} />
+      <OrganizationInvite organizationId={(await params).organizationId} />
       <Separator className="my-2" />
-      <OrganizationMembers organizationId={params.organizationId} />
+      <OrganizationMembers organizationId={(await params).organizationId} />
     </div>
   );
 }

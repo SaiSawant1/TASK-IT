@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  { params }: { params: { cardId: string } },
+  { params }: { params: Promise<{ cardId: string }> },
 ) {
   try {
     const session = await auth();
@@ -18,7 +18,7 @@ export async function GET(
       where: {
         orgId: org.data?.orgId,
         userId: session.user.id,
-        entityId: params.cardId,
+        entityId: (await params).cardId,
         entityType: ENTITY_TYPE.CARD,
       },
       orderBy: {

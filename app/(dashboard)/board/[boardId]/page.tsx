@@ -4,13 +4,12 @@ import { redirect } from "next/navigation";
 import { ListContainer } from "./_components/list-container";
 
 interface BoardIdPageProps {
-  params: { boardId: string };
+  params: Promise<{ boardId: string }>;
 }
 
-export default async function BoardIdPage({
-  params: { boardId },
-}: BoardIdPageProps) {
+export default async function BoardIdPage({ params }: BoardIdPageProps) {
   const { data } = await fetchCurrentOrg();
+  const boardId = (await params).boardId;
 
   if (!data?.orgId) {
     redirect("/organization-select");

@@ -7,11 +7,11 @@ export default async function InvitePage({
   params,
   searchParams,
 }: {
-  params: { organizationId: string };
-  searchParams: { [key: string]: string | string[] | undefined };
+  params: Promise<{ organizationId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const session = await auth();
-  if (!searchParams.token) {
+  if (!(await searchParams).token) {
     redirect("/login");
   }
 
@@ -19,9 +19,9 @@ export default async function InvitePage({
     redirect("/login");
   }
   const newMembership = await CreateNewMembership({
-    organizationId: params.organizationId,
+    organizationId: (await params).organizationId,
     userId: session?.user.id,
-    token: searchParams.token as string,
+    token: (await searchParams).token as string,
   });
   if (newMembership.data) {
     redirect(`/organization/${newMembership.data.organizationId}`);

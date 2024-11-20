@@ -10,11 +10,11 @@ interface OrganizationIdLayoutProps {
 export async function generateMetadata({
   params,
 }: {
-  params: { organizationId: string };
+  params: Promise<{ organizationId: string }>;
 }) {
   const organization = await db.organization.findUnique({
     where: {
-      id: params.organizationId,
+      id: (await params).organizationId,
     },
   });
   return {
